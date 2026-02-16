@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraMind - Think Big. Execute Daily.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Welcome/Onboarding Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <div class="logo-section">
+                    <h1 class="brand-logo">AstraMind</h1>
+                    <p class="tagline">Think Big. Execute Daily.</p>
+                </div>
+                <div class="welcome-card glass-card">
+                    <h2>Transform Your Dreams Into Discipline</h2>
+                    <p>AstraMind is your AI-powered goal execution engine that breaks down ambitious goals into daily actionable tasks.</p>
+                    <button id="get-started-btn" class="btn btn-primary glow">Get Started</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Goal Setup Screen -->
+        <section id="goal-setup-screen" class="screen">
+            <div class="setup-container">
+                <h1>Define Your Mission</h1>
+                <p class="subtitle">Let's turn your vision into a structured execution plan</p>
+
+                <form id="goal-setup-form" class="glass-card">
+                    <div class="form-group">
+                        <label for="goal-title">Your Big Goal</label>
+                        <input type="text" id="goal-title" placeholder="e.g., Master Full-Stack Development" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="target-date">Target Date</label>
+                            <input type="date" id="target-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="skill-level">Current Skill Level</label>
+                            <select id="skill-level" required>
+                                <option value="">Select Level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="weekly-hours">Weekly Available Hours</label>
+                            <input type="number" id="weekly-hours" min="1" max="168" placeholder="e.g., 20" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="focus-area">Area of Focus</label>
+                            <select id="focus-area" required>
+                                <option value="">Select Area</option>
+                                <option value="tech">Tech</option>
+                                <option value="science">Science</option>
+                                <option value="business">Business</option>
+                                <option value="creative">Creative</option>
+                                <option value="personal">Personal Growth</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large glow">Generate Execution Plan</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Main Dashboard -->
+        <section id="dashboard-screen" class="screen">
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h2 class="brand-logo-small">AstraMind</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-page="dashboard">
+                        <span class="nav-icon">🎯</span>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-page="breakdown">
+                        <span class="nav-icon">🗺️</span>
+                        <span>Roadmap</span>
+                    </li>
+                    <li class="nav-item" data-page="projection">
+                        <span class="nav-icon">🚀</span>
+                        <span>Future Vision</span>
+                    </li>
+                    <li class="nav-item" data-page="analytics">
+                        <span class="nav-icon">📊</span>
+                        <span>Analytics</span>
+                    </li>
+                    <li class="nav-item" data-page="goals">
+                        <span class="nav-icon">⭐</span>
+                        <span>All Goals</span>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div id="page-dashboard" class="page active">
+                    <header class="page-header">
+                        <div>
+                            <h1 id="dashboard-greeting">Welcome Back</h1>
+                            <p id="current-goal-title" class="subtitle">Loading...</p>
+                        </div>
+                        <div class="header-stats">
+                            <div class="stat-badge">
+                                <span class="stat-label">Streak</span>
+                                <span id="streak-count" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-badge">
+                                <span class="stat-label">Level</span>
+                                <span id="user-level" class="stat-value">Bronze</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="dashboard-grid">
+                        <!-- Discipline Score Card -->
+                        <div class="glass-card discipline-card">
+                            <h3>Discipline Score</h3>
+                            <div class="score-display">
+                                <div class="score-circle">
+                                    <span id="discipline-score" class="score-number">0</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="level-progress" class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <p class="progress-text"><span id="points-to-next">0</span> points to next level</p>
+                        </div>
+
+                        <!-- Today's Mission Card -->
+                        <div class="glass-card mission-card">
+                            <h3>Today's Mission</h3>
+                            <div id="daily-tasks" class="tasks-list">
+                                <!-- Tasks will be dynamically loaded -->
+                            </div>
+                            <button id="add-task-btn" class="btn btn-secondary btn-small">+ Add Task</button>
+                        </div>
+
+                        <!-- Pomodoro Timer Card -->
+                        <div class="glass-card timer-card">
+                            <h3>Focus Session</h3>
+                            <div class="timer-display">
+                                <div class="timer-circle">
+                                    <span id="timer-value">25:00</span>
+                                </div>
+                            </div>
+                            <div class="timer-controls">
+                                <button id="timer-start" class="btn btn-primary">Start</button>
+                                <button id="timer-pause" class="btn btn-secondary" style="display:none;">Pause</button>
+                                <button id="timer-reset" class="btn btn-outline">Reset</button>
+                            </div>
+                            <p class="timer-stats">Total Focus: <span id="total-focus-time">0</span> hours</p>
+                        </div>
+
+                        <!-- Motivation Card -->
+                        <div class="glass-card motivation-card">
+                            <h3>Daily Motivation</h3>
+                            <p id="motivation-message" class="motivation-text">Loading inspiration...</p>
+                        </div>
+
+                        <!-- Achievements Card -->
+                        <div class="glass-card achievements-card">
+                            <h3>Recent Achievements</h3>
+                            <div id="achievements-list" class="achievements-grid">
+                                <!-- Achievements will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roadmap Page -->
+                <div id="page-breakdown" class="page">
+                    <header class="page-header">
+                        <h1>Your Execution Roadmap</h1>
+                        <p class="subtitle">Strategic breakdown of your journey</p>
+                    </header>
+
+                    <div id="breakdown-content" class="roadmap-container">
+                        <!-- Breakdown will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Future Projection Page -->
+                <div id="page-projection" class="page">
+                    <header class="page-header">
+                        <h1>Future Vision</h1>
+                        <p class="subtitle">Project your growth trajectory</p>
+                    </header>
+
+                    <div class="projection-container">
+                        <div class="glass-card projection-summary">
+                            <h3>365-Day Projection</h3>
+                            <p id="projection-summary-text">Loading projection...</p>
+                        </div>
+
+                        <div class="glass-card chart-container">
+                            <canvas id="projection-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Page -->
+                <div id="page-analytics" class="page">
+                    <header class="page-header">
+                        <h1>Analytics</h1>
+                        <p class="subtitle">Track your performance metrics</p>
+                    </header>
+
+                    <div class="analytics-grid">
+                        <div class="glass-card stat-card">
+                            <h4>Total Focus Hours</h4>
+                            <p id="total-hours-stat" class="stat-big">0</p>
+                        </div>
+                        <div class="glass-card stat-card">
+                            <h4>Tasks Completed</h4>
+                            <p id="tasks-completed-stat" class="stat-big">0</p>
+                        </div>
+                        <div class="glass-card stat-card">
+                            <h4>Current Streak</h4>
+                            <p id="streak-stat" class="stat-big">0 days</p>
+                        </div>
+                        <div class="glass-card stat-card">
+                            <h4>Discipline Score</h4>
+                            <p id="discipline-stat" class="stat-big">0</p>
+                        </div>
+
+                        <div class="glass-card chart-container">
+                            <h3>Weekly Performance</h3>
+                            <canvas id="weekly-chart"></canvas>
+                        </div>
+
+                        <div class="glass-card chart-container">
+                            <h3>Discipline Trend</h3>
+                            <canvas id="discipline-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Goals Page -->
+                <div id="page-goals" class="page">
+                    <header class="page-header">
+                        <h1>All Goals</h1>
+                        <button id="create-new-goal-btn" class="btn btn-primary">+ Create New Goal</button>
+                    </header>
+
+                    <div id="goals-list" class="goals-grid">
+                        <!-- Goals will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="page-settings" class="page">
+                    <header class="page-header">
+                        <h1>Settings</h1>
+                        <p class="subtitle">Manage your preferences</p>
+                    </header>
+
+                    <div class="settings-container">
+                        <div class="glass-card settings-section">
+                            <h3>Goal Management</h3>
+                            <button id="edit-goal-btn" class="btn btn-secondary">Edit Current Goal</button>
+                            <button id="delete-goal-btn" class="btn btn-danger">Delete Current Goal</button>
+                        </div>
+
+                        <div class="glass-card settings-section">
+                            <h3>Data Management</h3>
+                            <button id="export-data-btn" class="btn btn-secondary">Export Data (JSON)</button>
+                            <button id="clear-data-btn" class="btn btn-danger">Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </section>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="achievement-popup">
+        <div class="achievement-content glass-card">
+            <h2>🏆 Achievement Unlocked!</h2>
+            <h3 id="achievement-title"></h3>
+            <p id="achievement-description"></p>
+            <button id="close-achievement" class="btn btn-primary">Awesome!</button>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content glass-card">
+            <h3>Add New Task</h3>
+            <input type="text" id="new-task-input" placeholder="Enter task description" class="modal-input">
+            <div class="modal-actions">
+                <button id="save-task-btn" class="btn btn-primary">Add Task</button>
+                <button id="cancel-task-btn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
