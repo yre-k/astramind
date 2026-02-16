@@ -108,7 +108,7 @@ This simulates backend behavior while keeping the app fully client-side.
 ## 🚀 How to Run
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/astramind.git
+   https://yre-k.github.io/astramind/
 
 2. Open index.html in your browser.
 
